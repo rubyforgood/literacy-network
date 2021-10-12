@@ -11,6 +11,9 @@ import "./styles.css"
 export default function App() {
   const { items, add } = useArray()
   const [isbn, setIsbn] = useState("")
+  const [title, setTitle] = useState("")
+  const [authors, setAuthors] = useState("")
+  const [publishDate, setPublishDate] = useState("")
   const [error, setError] = useState()
   const [scanning, toggleScanning] = useToggle()
   const handleApiError = (error) => {
@@ -23,12 +26,33 @@ export default function App() {
     setIsbn(isbn)
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    let book = { isbn, title, authors, publishDate }
+    if (book.title && book.authors && book.publishDate) {
+      add(book)
+      setDefaultState()
+    }
+  }
+
+  const setDefaultState = () => {
+    setIsbn("")
+    setTitle("")
+    setAuthors("")
+    setPublishDate("")
+  }
+
   useEffect(() => {
     if (isbn?.length >= 9) {
       setError(null)
       toggleScanning()
       fetchBookInfo(isbn)
-        .then(add)
+        .then((data) => {
+          setTitle(data.title)
+          setAuthors(data.authors)
+          setPublishDate(data.publishDate)
+        })
         .catch(handleApiError)
         .then(toggleScanning)
     }
@@ -37,7 +61,27 @@ export default function App() {
   return (
     <div className="App">
       <Scanner onScan={handleIsbnChange} />
-      <input value={ isbn } onChange={e => handleIsbnChange(e.target.value)} />
+      <form onSubmit={handleSubmit}>
+        <label>
+          ISBN:
+          <input value={ isbn } onChange={e => handleIsbnChange(e.target.value)} />
+        </label>
+        <label>
+          Title:
+          <input value={ title } onChange={e => setTitle(e.target.value)} />
+        </label>
+        <label>
+          Author(s):
+          <input value={ authors } onChange={e => setAuthors(e.target.value)} />
+        </label>
+        <label>
+          Publish Date:
+          <input value={ publishDate } onChange={e => setPublishDate(e.target.value)} />
+        </label>
+
+        <input type="submit" />
+      </form>
+
       <small>{error && error}</small>
       <p>{scanning && "Scanning Book..."}</p>
 
