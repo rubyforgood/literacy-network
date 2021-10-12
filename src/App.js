@@ -32,7 +32,15 @@ export default function App() {
     let book = { isbn, title, author, publishDate }
     if (book.title && book.author && book.publishDate) {
       add(book)
+      setDefaultState()
     }
+  }
+
+  const setDefaultState = () => {
+    setIsbn("")
+    setTitle("")
+    setAuthor("")
+    setPublishDate("")
   }
 
   useEffect(() => {
