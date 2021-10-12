@@ -1,4 +1,14 @@
+function jsonToCSV(books = []) {
+  const header = Object.keys(books[0]).join(",")
+  const items = books.map(book => Object.values(book).map(JSON.stringify).join(",")).join("\n")
+
+  return `${header}\n${items}`
+}
+
 export default function Books({ books = [] }) {
+  const blob = new Blob([jsonToCSV(books)], { type: "text/csv" })
+  const url = URL.createObjectURL(blob)
+
   return (
     <table>
       <thead>
@@ -7,6 +17,7 @@ export default function Books({ books = [] }) {
           <th>Title</th>
           <th>Author(s)</th>
           <th>Publish Date</th>
+          <th><a href={url} download="books.csv">Export CSV</a></th>
         </tr>
       </thead>
       <tbody>
@@ -15,7 +26,8 @@ export default function Books({ books = [] }) {
             <td>{book.isbn}</td>
             <td>{book.title}</td>
             <td>{book.authors}</td>
-            <td>{book.publishDate}</td>
+            <td>{ book.publishDate }</td>
+            <td>&nbsp;</td>
           </tr>
         ))}
       </tbody>
