@@ -5,7 +5,7 @@ export default function Books({ books = [] }) {
         <tr>
           <th>ISBN</th>
           <th>Title</th>
-          <th>Author</th>
+          <th>Author(s)</th>
           <th>Publish Date</th>
         </tr>
       </thead>
@@ -14,7 +14,7 @@ export default function Books({ books = [] }) {
           <tr key={book.isbn}>
             <td>{book.isbn}</td>
             <td>{book.title}</td>
-            <td>{book.author}</td>
+            <td>{book.authors}</td>
             <td>{book.publishDate}</td>
           </tr>
         ))}
