@@ -1,4 +1,9 @@
+import { jsonToCsv } from "../../helpers/csv"
+
 export default function Books({ books = [] }) {
+  const blob = new Blob([jsonToCsv(books)], { type: "text/csv" })
+  const url = URL.createObjectURL(blob)
+
   return (
     <table>
       <thead>
@@ -7,6 +12,7 @@ export default function Books({ books = [] }) {
           <th>Title</th>
           <th>Author(s)</th>
           <th>Publish Date</th>
+          <th><a href={url} download="books.csv">Export CSV</a></th>
         </tr>
       </thead>
       <tbody>
@@ -15,7 +21,8 @@ export default function Books({ books = [] }) {
             <td>{book.isbn}</td>
             <td>{book.title}</td>
             <td>{book.authors}</td>
-            <td>{book.publishDate}</td>
+            <td>{ book.publishDate }</td>
+            <td>&nbsp;</td>
           </tr>
         ))}
       </tbody>
