@@ -1,12 +1,16 @@
-function jsonToCSV(books = []) {
+function createCsvItem(book) {
+  return Object.values(book).map(JSON.stringify).join(",")
+}
+
+function jsonToCsv(books = []) {
   const header = Object.keys(books[0]).join(",")
-  const items = books.map(book => Object.values(book).map(JSON.stringify).join(",")).join("\n")
+  const items = books.map(createCsvItem).join("\n")
 
   return `${header}\n${items}`
 }
 
 export default function Books({ books = [] }) {
-  const blob = new Blob([jsonToCSV(books)], { type: "text/csv" })
+  const blob = new Blob([jsonToCsv(books)], { type: "text/csv" })
   const url = URL.createObjectURL(blob)
 
   return (
