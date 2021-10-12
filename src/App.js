@@ -12,7 +12,7 @@ export default function App() {
   const { items, add } = useArray()
   const [isbn, setIsbn] = useState("")
   const [title, setTitle] = useState("")
-  const [author, setAuthor] = useState("")
+  const [authors, setAuthors] = useState("")
   const [publishDate, setPublishDate] = useState("")
   const [error, setError] = useState()
   const [scanning, toggleScanning] = useToggle()
@@ -29,8 +29,8 @@ export default function App() {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    let book = { isbn, title, author, publishDate }
-    if (book.title && book.author && book.publishDate) {
+    let book = { isbn, title, authors, publishDate }
+    if (book.title && book.authors && book.publishDate) {
       add(book)
       setDefaultState()
     }
@@ -39,7 +39,7 @@ export default function App() {
   const setDefaultState = () => {
     setIsbn("")
     setTitle("")
-    setAuthor("")
+    setAuthors("")
     setPublishDate("")
   }
 
@@ -50,7 +50,7 @@ export default function App() {
       fetchBookInfo(isbn)
         .then((data) => {
           setTitle(data.title)
-          setAuthor(data.author)
+          setAuthors(data.authors)
           setPublishDate(data.publishDate)
         })
         .catch(handleApiError)
@@ -71,8 +71,8 @@ export default function App() {
           <input value={ title } onChange={e => setTitle(e.target.value)} />
         </label>
         <label>
-          Author:
-          <input value={ author } onChange={e => setAuthor(e.target.value)} />
+          Author(s):
+          <input value={ authors } onChange={e => setAuthors(e.target.value)} />
         </label>
         <label>
           Publish Date:
