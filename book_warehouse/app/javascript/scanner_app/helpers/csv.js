@@ -3,7 +3,7 @@ function createCsvItem(book) {
 }
 
 export function jsonToCsv(books = []) {
-  const header = Object.keys(books[0]).join(",")
+  const header = Object.keys(books[0] || {}).join(",")
   const items = books.map(createCsvItem).join("\n")
 
   return `${header}\n${items}`

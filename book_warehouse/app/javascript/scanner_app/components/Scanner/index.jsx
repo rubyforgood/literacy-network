@@ -1,3 +1,4 @@
+import React from "react"
 import BarcodeScanner from "react-qr-barcode-scanner"
 
 import "./Scanner.css"
