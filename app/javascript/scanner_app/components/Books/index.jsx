@@ -13,6 +13,7 @@ export default function Books({ books = [] }) {
           <th>Title</th>
           <th>Author(s)</th>
           <th>Publish Date</th>
+          <th>Quantity</th>
           <th><a href={url} download="books.csv">Export CSV</a></th>
         </tr>
       </thead>
@@ -22,7 +23,8 @@ export default function Books({ books = [] }) {
             <td>{book.isbn}</td>
             <td>{book.title}</td>
             <td>{book.authors}</td>
-            <td>{ book.publishDate }</td>
+            <td>{book.publishDate}</td>
+            <td>{book.quantity}</td>
             <td>&nbsp;</td>
           </tr>
         ))}
