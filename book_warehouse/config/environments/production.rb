@@ -86,6 +86,7 @@ Rails.application.configure do
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
+  config.hosts << "literacy-network-warehouse.herokuapp.com"
   # Do not dump schema after migrations.
   # config.active_record.dump_schema_after_migration = false
 
