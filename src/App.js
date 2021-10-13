@@ -8,12 +8,20 @@ import useToggle from "./hooks/useToggle"
 
 import "./styles.css"
 
+function useInput(initialValue = "") {
+  const [value, setValue] = useState(initialValue)
+  const onChange = e => setValue(e.target.value)
+  const reset = () => setValue(initialValue)
+  return { value, onChange, reset, set: setValue }
+}
+
 export default function App() {
   const { items, add } = useArray()
-  const [isbn, setIsbn] = useState("")
-  const [title, setTitle] = useState("")
-  const [authors, setAuthors] = useState("")
-  const [publishDate, setPublishDate] = useState("")
+  const isbn = useInput()
+  const title = useInput()
+  const authors = useInput()
+  const publishDate = useInput()
+  const quantity = useInput(1)
   const [error, setError] = useState()
   const [scanning, toggleScanning] = useToggle()
   const handleApiError = (error) => {
@@ -29,7 +37,14 @@ export default function App() {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    let book = { isbn, title, authors, publishDate }
+    let book = {
+      isbn: isbn.value,
+      title: title.value,
+      authors: authors.value,
+      publishDate: publishDate.value,
+      quantity: quantity.value,
+    }
+
     if (book.title && book.authors && book.publishDate) {
       add(book)
       setDefaultState()
@@ -37,26 +52,26 @@ export default function App() {
   }
 
   const setDefaultState = () => {
-    setIsbn("")
-    setTitle("")
-    setAuthors("")
-    setPublishDate("")
+    isbn.reset()
+    title.reset()
+    authors.reset()
+    publishDate.reset()
   }
 
   useEffect(() => {
-    if (isbn?.length >= 9) {
+    if (isbn.value?.length >= 9) {
       setError(null)
       toggleScanning()
-      fetchBookInfo(isbn)
+      fetchBookInfo(isbn.value)
         .then((data) => {
-          setTitle(data.title)
-          setAuthors(data.authors)
-          setPublishDate(data.publishDate)
+          title.set(data.title)
+          authors.set(data.authors)
+          publishDate.set(data.publishDate)
         })
         .catch(handleApiError)
         .then(toggleScanning)
     }
-  }, [isbn])
+  }, [isbn.value])
 
   return (
     <div className="App">
@@ -64,22 +79,26 @@ export default function App() {
       <form onSubmit={handleSubmit}>
         <label>
           ISBN:
-          <input value={ isbn } onChange={e => handleIsbnChange(e.target.value)} />
+          <input {...isbn} />
         </label>
         <label>
           Title:
-          <input value={ title } onChange={e => setTitle(e.target.value)} />
+          <input {...title} />
         </label>
         <label>
           Author(s):
-          <input value={ authors } onChange={e => setAuthors(e.target.value)} />
+          <input {...authors } />
         </label>
         <label>
           Publish Date:
-          <input value={ publishDate } onChange={e => setPublishDate(e.target.value)} />
+          <input {...publishDate} />
+        </label>
+        <label>
+          Quantity:
+          <input type="number" {...quantity} />
         </label>
 
-        <input type="submit" />
+        <button>Add</button>
       </form>
 
       <small>{error && error}</small>

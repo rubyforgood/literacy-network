@@ -69,7 +69,7 @@ function createCsvItem(book) {
     `'${book.isbn}`,
     "",
     "shopify",
-    "1",
+    book.quantity || 1,
     "deny",
     "manual",
     "",
