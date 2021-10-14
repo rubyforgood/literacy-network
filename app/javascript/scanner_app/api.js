@@ -1,7 +1,8 @@
 const endpoint = isbn => `/books/${isbn}`
 
 export const fetchBookInfo = async (isbn) => {
-  const resp = await fetch(endpoint(isbn))
+  const headers = new Headers({ "Authorization": "Bearer " + window.sessionToken });
+  const resp = await fetch(endpoint(isbn), { headers })
   const data = await resp.json()
 
   const title = data.title
