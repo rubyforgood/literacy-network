@@ -1,15 +1,17 @@
-const endpoint = isbn => `https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&jscmd=data&format=json`
+const endpoint = isbn => `/books/${isbn}`
 
 export const fetchBookInfo = async (isbn) => {
-  const resp = await fetch(endpoint(isbn))
+  const headers = new Headers({ "Authorization": "Bearer " + window.sessionToken });
+  const resp = await fetch(endpoint(isbn), { headers })
   const data = await resp.json()
-  const info = data[`ISBN:${isbn}`]
 
-  const title = info.title
-  const publishDate = info.publish_date
-  const authors = info.authors.map(author => author.name).join(", ")
+  const id = data.id
+  const title = data.title
+  const publishDate = data.publish_date
+  const authors = data.authors.map(author => author.name).join(", ")
 
   return {
+    id,
     isbn,
     title,
     authors,

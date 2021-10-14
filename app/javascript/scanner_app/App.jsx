@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react"
 
 import '@shopify/polaris/build/esm/styles.css'
-import enTranslations from '@shopify/polaris/locales/en.json'
 import { AppProvider, Tabs } from '@shopify/polaris'
+import enTranslations from '@shopify/polaris/locales/en.json'
 
 import Screen from "./components/Screen"
+import ItemsScan from "./screens/ItemsScan"
 
 import { fetchBookInfo } from "./api"
-import useArray from "./hooks/useArray"
+
 import useToggle from "./hooks/useToggle"
-import ItemsScan from "./screens/ItemsScan"
-import { useInput } from "./hooks/useInput"
+import useInput from "./hooks/useInput"
 
 import "./styles.css"
 
@@ -34,7 +34,7 @@ export default function App() {
   ]
 
   return (
-    <AppProvider i18n={ enTranslations }>
+    <AppProvider i18n={enTranslations}>
       <Screen>
         {scanning ? <ItemsScan /> : <div>"Items List Screen"</div>}
         <Tabs
