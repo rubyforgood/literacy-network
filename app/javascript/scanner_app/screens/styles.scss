@@ -1,0 +1,19 @@
+.items-scan { 
+  .Polaris-Stack {
+    flex-grow: 1;
+    align-items: stretch;
+  }
+
+  .Polaris-Stack__Item--fill > div {
+    width: 100%;
+  }
+  
+  .Polaris-Stack__Item {
+    display: flex;
+    justify-content: center;
+  }
+
+  .Polaris-ButtonGroup {
+    margin: 46px 0;
+  }
+}
