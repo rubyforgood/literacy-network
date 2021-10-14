@@ -1,11 +1,14 @@
 import React from "react"
 import { useEffect, useState } from "react"
 
+import '@shopify/polaris/build/esm/styles.css';
+import enTranslations from '@shopify/polaris/locales/en.json';
+import { AppProvider, Page } from '@shopify/polaris';
+
 import { fetchBookInfo } from "./api"
-import Books from "./components/Books"
-import Scanner from "./components/Scanner"
 import useArray from "./hooks/useArray"
 import useToggle from "./hooks/useToggle"
+import ItemsScan from "./screens/ItemsScan";
 
 import "./styles.css"
 
@@ -73,39 +76,13 @@ export default function App() {
         .then(toggleScanning)
     }
   }, [isbn.value])
+  
 
   return (
-    <div className="App">
-      <Scanner onScan={handleIsbnChange} />
-      <form onSubmit={handleSubmit}>
-        <label>
-          ISBN:
-          <input {...isbn} />
-        </label>
-        <label>
-          Title:
-          <input {...title} />
-        </label>
-        <label>
-          Author(s):
-          <input {...authors } />
-        </label>
-        <label>
-          Publish Date:
-          <input {...publishDate} />
-        </label>
-        <label>
-          Quantity:
-          <input type="number" {...quantity} />
-        </label>
-
-        <button>Add</button>
-      </form>
-
-      <small>{error && error}</small>
-      <p>{scanning && "Scanning Book..."}</p>
-
-      <Books books={items} />
-    </div>
+    <AppProvider i18n={enTranslations}>
+      <Page titleHidden>
+        <ItemsScan />
+      </Page>
+    </AppProvider>
   )
 }
