@@ -3,15 +3,20 @@ import { useEffect, useState } from "react"
 
 import { fetchBookInfo } from "./api"
 import Books from "./components/Books"
+import BookForm from "./components/BookForm"
 import Scanner from "./components/Scanner"
 import useArray from "./hooks/useArray"
 import useToggle from "./hooks/useToggle"
 
 import "./styles.css"
+import "@shopify/polaris/build/esm/styles.css"
+
+import enTranslations from "@shopify/polaris/locales/en.json"
+import { AppProvider, Button, ButtonGroup, Card, Form, FormLayout, Page, TextField, TextStyle  } from "@shopify/polaris"
 
 function useInput(initialValue = "") {
   const [value, setValue] = useState(initialValue)
-  const onChange = e => setValue(e.target.value)
+  const onChange = setValue
   const reset = () => setValue(initialValue)
   return { value, onChange, reset, set: setValue }
 }
@@ -75,37 +80,36 @@ export default function App() {
   }, [isbn.value])
 
   return (
-    <div className="App">
-      <Scanner onScan={handleIsbnChange} />
-      <form onSubmit={handleSubmit}>
-        <label>
-          ISBN:
-          <input {...isbn} />
-        </label>
-        <label>
-          Title:
-          <input {...title} />
-        </label>
-        <label>
-          Author(s):
-          <input {...authors } />
-        </label>
-        <label>
-          Publish Date:
-          <input {...publishDate} />
-        </label>
-        <label>
-          Quantity:
-          <input type="number" {...quantity} />
-        </label>
+    <AppProvider i18n={enTranslations}>
+      <Page title="Example app updated">
+        <div className="App">
+          <Scanner onScan={handleIsbnChange} />
 
-        <button>Add</button>
-      </form>
+          {/* <BookForm onSubmit={handleSubmit} isbn={isbn} title={title} authors={authors} publishDate={publishDate} quantity={quantity} /> */}
 
-      <small>{error && error}</small>
-      <p>{scanning && "Scanning Book..."}</p>
+          <Card title="New Item Details" sectioned>
+            <TextStyle variation="subdued">This is a new item that will be created</TextStyle>
+            <Form onSubmit={handleSubmit}>
+              <FormLayout>
+                <TextField label="ISBN #" {...isbn} />
+                <TextField label="Title" {...title} />
+                <TextField label="Author" {...authors} />
+                <TextField label="Publish Date" {...publishDate} />
+                <TextField label="Quantity" type="number" {...quantity} />
+                <ButtonGroup>
+                  <Button>Cancel</Button>
+                  <Button primary submit>Save</Button>
+                </ButtonGroup>
+              </FormLayout>
+            </Form>
+          </Card>
 
-      <Books books={items} />
-    </div>
+          <small>{error && error}</small>
+          <p>{scanning && "Scanning Book..."}</p>
+
+          <Books books={items} />
+        </div>
+      </Page>
+    </AppProvider>
   )
 }
