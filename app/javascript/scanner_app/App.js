@@ -21,6 +21,8 @@ export default function App() {
   const title = useInput()
   const authors = useInput()
   const publishDate = useInput()
+  const subject = useInput()
+  const price = useInput()
   const quantity = useInput(1)
   const [error, setError] = useState()
   const [scanning, toggleScanning] = useToggle()
@@ -70,6 +72,9 @@ export default function App() {
           title.set(data.title)
           authors.set(data.authors)
           publishDate.set(data.publishDate)
+          subject.set(data.subject || "")
+          price.set(data.price || 0)
+          quantity.set(data.quantity || 1)
         })
         .catch(handleApiError)
         .then(toggleScanning)
@@ -81,7 +86,7 @@ export default function App() {
     <AppProvider i18n={enTranslations}>
       <Page titleHidden>
         <ItemsScan />
-        <BookForm open={scanned} onClose={toggleScanned} onSubmit={handleSubmit} isbn={isbn} title={title} authors={authors} publishDate={publishDate} quantity={quantity} add={true} />
+        <BookForm open={scanned} onClose={toggleScanned} onSubmit={handleSubmit} isbn={isbn} title={title} authors={authors} publishDate={publishDate} subject={subject} price={price} quantity={quantity} add={true} />
       </Page>
     </AppProvider>
   )

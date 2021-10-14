@@ -32,8 +32,8 @@ export default function BookForm(props) {
             <TextField label="Title" {...props.title} disabled={!add}/>
             <TextField label="Author" {...props.authors} disabled={!add}/>
             <TextField label="Publish Date" {...props.publishDate} disabled={!add} />
-            <TextField label="Subject" disabled={!add} />
-            <TextField label="Price" disabled={!add} />
+            <TextField label="Subject" {...props.subject} disabled={!add} />
+            <TextField label="Price" type="number" {...props.price} disabled={!add} />
             <TextField label="Quantity" type="number" {...props.quantity} />
           </FormLayout>
         </Form>
