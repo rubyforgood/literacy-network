@@ -1,0 +1,33 @@
+.screen {
+  overflow-y: auto;
+  height: calc(100vh - 20px);
+
+  .Polaris-Page,
+  .Polaris-Page__Content {
+    height: 100%;
+  }
+
+  .Polaris-Page__Content {
+    display: flex;
+    flex-direction: column;
+
+    & > :first-child {
+      flex-grow: 1;
+      margin: 0 33px;
+    }
+  }
+
+  & > div {
+    height: 100%;
+  }
+
+  .Polaris-Tabs__Wrapper {
+    border-top: 1px solid #9C9C9C;
+  }
+
+  .Polaris-Tabs {
+    button {
+      padding: 16px 0;
+    }
+  }
+}

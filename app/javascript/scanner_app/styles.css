@@ -6,11 +6,11 @@
   justify-content: center;
 }
 
+body {
+  overflow: hidden;
+}
+
 small {
   color: red;
   font-weight: 600;
-}
-
-.Polaris-Page__Content {
-  padding: 33px;
 }
