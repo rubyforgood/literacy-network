@@ -1,24 +1,35 @@
 import React from "react"
-import { Button, Stack, ButtonGroup, TextField, DisplayText } from '@shopify/polaris';
+import { Button, Stack, ButtonGroup, TextField, DisplayText, Form } from '@shopify/polaris';
 
 import "./styles.scss"
+import { useInput } from "../hooks/useInput";
+import { fetchBookInfo } from "../api";
 
 export default function ItemsScan() {
+  const isbn = useInput()
+
+  const handleSubmit= async () => {
+    const data = await fetchBookInfo(isbn.value)
+    console.log(data)
+  }
+
   return (
-    <div className="items-scan">
-      <Stack vertical distribution="center" alignment="center">
-        <DisplayText size="medium">Scan Items</DisplayText>
-        <ButtonGroup segmented>
-          <Button>New</Button>
-          <Button>Used</Button>
-        </ButtonGroup>
-        <Stack spacing="none">
-          <Stack.Item fill>
-            <TextField name="isbn" placeholder="ISBN lookup" />
-          </Stack.Item>
-          <Button>Enter</Button>
+    <Form onSubmit={handleSubmit}>
+      <div className="items-scan">
+        <Stack vertical distribution="center" alignment="center">
+            <DisplayText size="medium">Scan Items</DisplayText>
+            <ButtonGroup segmented>
+              <Button>New</Button>
+              <Button>Used</Button>
+            </ButtonGroup>
+            <Stack spacing="none">
+              <Stack.Item fill>
+                <TextField {...isbn} name="isbn" placeholder="ISBN lookup" />
+              </Stack.Item>
+              <Button submit>Enter</Button>
+            </Stack>
         </Stack>
-      </Stack>
-    </div>
+      </div>
+    </Form>
   )
 }
