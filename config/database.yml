@@ -1,12 +1,14 @@
 development: &default
   adapter: postgresql
   database: book_warehouse_development
+  host: 127.0.0.1
+  password: example
+  username: postgres
   encoding: utf8
   min_messages: warning
   pool: <%= Integer(ENV.fetch("DB_POOL", 5)) %>
   reaping_frequency: <%= Integer(ENV.fetch("DB_REAPING_FREQUENCY", 10)) %>
   timeout: 5000
-  url:  <%= ENV["DATABASE_URL"] %>
 
 test:
   <<: *default

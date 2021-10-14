@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <%= javascript_pack_tag "warehouse" %>
     <link
       rel="stylesheet"
       href="https://unpkg.com/@shopify/polaris@4.25.0/styles.min.css"
@@ -46,6 +47,7 @@
     </script>
   </head>
   <body>
+    <h1 id="root"></h1>
     <h2>Products</h2>
     <div id="products"><br>Loading...</div>
     <h2>Webhooks</h2>
