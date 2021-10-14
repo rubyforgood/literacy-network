@@ -9,9 +9,11 @@ import { fetchBookInfo } from "./api"
 import useArray from "./hooks/useArray"
 import useToggle from "./hooks/useToggle"
 import ItemsScan from "./screens/ItemsScan";
+import BookForm from "./components/BookForm"
 
 import "./styles.css"
 import { useInput } from "./hooks/useInput";
+
 
 export default function App() {
   const { items, add } = useArray()
@@ -19,9 +21,13 @@ export default function App() {
   const title = useInput()
   const authors = useInput()
   const publishDate = useInput()
+  const subject = useInput()
+  const price = useInput()
   const quantity = useInput(1)
   const [error, setError] = useState()
   const [scanning, toggleScanning] = useToggle()
+  const [scanned, toggleScanned] = useToggle(true)
+
   const handleApiError = (error) => {
     console.error(error)
     setError(`Could not find information for book #${isbn}`)
@@ -54,6 +60,7 @@ export default function App() {
     title.reset()
     authors.reset()
     publishDate.reset()
+    quantity.reset()
   }
 
   useEffect(() => {
@@ -65,17 +72,21 @@ export default function App() {
           title.set(data.title)
           authors.set(data.authors)
           publishDate.set(data.publishDate)
+          subject.set(data.subject || "")
+          price.set(data.price || 0)
+          quantity.set(data.quantity || 1)
         })
         .catch(handleApiError)
         .then(toggleScanning)
     }
   }, [isbn.value])
-  
+
 
   return (
     <AppProvider i18n={enTranslations}>
       <Page titleHidden>
         <ItemsScan />
+        <BookForm open={scanned} onClose={toggleScanned} onSubmit={handleSubmit} isbn={isbn} title={title} authors={authors} publishDate={publishDate} subject={subject} price={price} quantity={quantity} add={true} />
       </Page>
     </AppProvider>
   )

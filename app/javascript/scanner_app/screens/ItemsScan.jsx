@@ -7,7 +7,6 @@ import { fetchBookInfo } from "../api";
 
 export default function ItemsScan() {
   const isbn = useInput()
-  
   const [bookInfo, setBookInfo] = useState()
 
   const handleSubmit= async () => {
