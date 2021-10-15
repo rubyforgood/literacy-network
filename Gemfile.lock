@@ -82,6 +82,7 @@ GEM
       xpath (~> 3.2)
     childprocess (3.0.0)
     concurrent-ruby (1.1.9)
+    connection_pool (2.2.5)
     crass (1.0.6)
     erubi (1.10.0)
     faraday (1.8.0)
@@ -275,6 +276,7 @@ DEPENDENCIES
   bootsnap (>= 1.4.2)
   byebug
   capybara (>= 2.15)
+  connection_pool
   jbuilder (~> 2.7)
   listen (~> 3.2)
   pg

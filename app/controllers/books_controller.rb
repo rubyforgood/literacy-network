@@ -26,14 +26,12 @@ class BooksController < AuthenticatedController
   def index
     render(json: BOOKS)
   end
-  
-  def show
-    book = BOOKS.first
 
-    if book.nil?
-      render(json: { message: "404 Not Found" }, status: 404)
-    else
+  def show
+    if book.present?
       render(json: book)
+    else
+      render(json: { message: "404 Not Found" }, status: 404)
     end
   end
 
@@ -149,5 +147,18 @@ private
         }
       }
     GRAPHQL
+  end
+
+  def book
+    @book ||= find_book_in_shopify || find_book_in_open_library
+
+  end
+
+  def find_book_in_shopify
+    BOOKS.find { |book| book[:isbn] == params[:isbn] }
+  end
+
+  def find_book_in_open_library
+    OpenLibrary.lookup_by_isbn(params[:isbn])
   end
 end
