@@ -31,3 +31,32 @@
     }
   }
 }
+
+.Polaris-Modal-Header {
+  border-bottom: none;
+}
+
+.Polaris-Modal__Body {
+  padding-left: 5rem;
+  padding-right: 5rem;
+}
+
+.Polaris-Scrollable--hasTopShadow {
+  box-shadow: none;
+
+  &.Polaris-Scrollable--hasBottomShadow {
+    box-shadow: none;
+  }
+}
+
+.Polaris-Scrollable--hasBottomShadow {
+  box-shadow: none;
+
+  &.Polaris-Scrollable--hasTopShadow  {
+    box-shadow: none;
+  }
+}
+
+.Polaris-Modal-Footer {
+  border-top: none;
+}

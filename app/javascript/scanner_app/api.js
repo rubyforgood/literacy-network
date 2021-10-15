@@ -1,7 +1,7 @@
 const endpoint = isbn => `/books/${isbn}`
+const headers = new Headers({ "Authorization": "Bearer " + window.sessionToken });
 
 export const fetchBookInfo = async (isbn) => {
-  const headers = new Headers({ "Authorization": "Bearer " + window.sessionToken });
   const resp = await fetch(endpoint(isbn), { headers })
   const data = await resp.json()
 
@@ -17,4 +17,18 @@ export const fetchBookInfo = async (isbn) => {
     authors,
     publishDate
   }
+}
+
+export const createBook = async (book) => {
+  const resp = await fetch(`books`, { method: "POST", body: JSON.stringify(book), headers })
+  const data = await resp.json()
+
+  return data
+}
+
+export const updateBook = async (book) => {
+  const resp = await fetch(endpoint(book.isbn), { method: "PATCH", body: JSON.stringify(book), headers })
+  const data = await resp.json()
+
+  return data
 }

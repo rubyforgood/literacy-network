@@ -1,5 +1,6 @@
 import React from "react"
 import {
+  DisplayText,
   Form,
   FormLayout,
   Modal,
@@ -8,6 +9,8 @@ import {
 } from "@shopify/polaris"
 
 import useInput from "../../hooks/useInput"
+
+import { createBook, updateBook } from "../../api";
 
 export default function BookForm({
   book = {},
@@ -38,17 +41,23 @@ export default function BookForm({
       publishDate: bookPublishDate.value,
       quantity: quantity.value,
     }
-    // TODO: if `existingBook` then call PUT endpoint else call POST
-    console.log(">>> book info", bookInfo)
-    // TODO: Close the modal upon a successful API response
+
+    // TODO: Error handling
+    existingBook ? updateBook(bookInfo) : createBook(bookInfo)
     onClose()
   }
 
   return (
     <Modal
+      className="bookForm"
       open
       onClose={onClose}
-      title={title}
+      title={
+        <>
+          <DisplayText size="large">{title}</DisplayText>
+          <TextStyle variation="subdued">{subtitle}</TextStyle>
+        </>
+      }
       primaryAction={{
         content: "Save",
         onAction: handleSubmit,
@@ -61,7 +70,6 @@ export default function BookForm({
       ]}
     >
       <Modal.Section>
-        <TextStyle variation="subdued">{subtitle}</TextStyle>
         <Form onSubmit={handleSubmit}>
           <FormLayout>
             <TextField label="ISBN #" {...bookIsbn} disabled={existingBook} />
