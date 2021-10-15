@@ -41,7 +41,7 @@ export default function ItemsScan({ onScan }) {
           </ButtonGroup>
           <Stack spacing="none">
             <Stack.Item fill>
-              <TextField {...isbn} name="isbn" placeholder="ISBN lookup" />
+              <TextField {...isbn} name="isbn" placeholder="ISBN lookup" autoFocus />
             </Stack.Item>
             <Button submit>Enter</Button>
           </Stack>

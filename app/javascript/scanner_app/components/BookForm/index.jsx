@@ -98,7 +98,7 @@ export default function BookForm({
             <TextField label="Publish Date" {...bookPublishDate} disabled={existingBook} />
             <TextField label="Subject" {...bookSubject} disabled={existingBook} />
             <TextField label="Price" type="number" {...bookPrice} disabled={existingBook} />
-            <TextField label="Quantity" type="number" {...quantity} />
+            <TextField label="Quantity" type="number" {...quantity} autoFocus />
           </FormLayout>
         </Form>
       </Modal.Section>
