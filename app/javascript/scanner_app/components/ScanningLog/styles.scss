@@ -25,6 +25,10 @@
     border-bottom: 0.1rem solid #9C9C9C;
   }
 
+  .Polaris-Listbox-Option--divider:last-of-type {
+    border: none;
+  }
+
   .Polaris-Listbox-Action {
     padding: 20px 10px 10px;
 
