@@ -35,6 +35,18 @@ module OpenLibrary
       Array(book_json[:subjects]).map { |subject| { name: String(subject) } }
     end
 
+    def physical_dimensions
+      String(book_json[:physical_dimensions])
+    end
+
+    def weight
+      String(book_json[:weight])
+    end
+
+    def physical_format
+      String(book_json[:physical_format])
+    end
+
     delegate :blank?, to: :book_json
 
     def attributes
@@ -46,6 +58,9 @@ module OpenLibrary
         publishers: [],
         publish_date: nil,
         subjects: [],
+        physical_dimensions: nil,
+        weight: nil,
+        physical_format: nil,
       }
     end
 
