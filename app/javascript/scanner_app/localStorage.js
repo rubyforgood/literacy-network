@@ -5,7 +5,7 @@
  * does not exist or the look up fails.
  */
  export function loadFromStorage(key, defaultValue) {
-  try {
+   try {
     return JSON.parse(window.localStorage.getItem(key)) || defaultValue
   } catch (e) {
     console.error(e)

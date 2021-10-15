@@ -14,7 +14,8 @@ import { loadFromStorage, updateStorage } from "../localStorage"
  * with the new value.
  */
 export default function usePersistedState(key, initialValue) {
-  const [value, setValue] = useState(loadFromStorage(key, initialValue))
+  const initialState = useMemo(() => loadFromStorage(key, initialValue), [key, initialValue])
+  const [value, setValue] = useState(initialState)
 
   useEffect(() => updateStorage(key, value), [key, value])
 

@@ -11,9 +11,9 @@ import useInput from "../../hooks/useInput"
 
 export default function BookForm({
   book = {},
+  onScan = () => {},
   onClose = () => {},
 }) {
-
   // Books having an id mean they already exist in Shopify"s DB.
   const existingBook = book.id != null
   const title = existingBook ? "Update Item Quantity" : "New Item Details"
@@ -38,8 +38,8 @@ export default function BookForm({
       publishDate: bookPublishDate.value,
       quantity: quantity.value,
     }
-    // TODO: if `existingBook` then call PUT endpoint else call POST
-    console.log(">>> book info", bookInfo)
+
+    onScan(bookInfo)
     // TODO: Close the modal upon a successful API response
     onClose()
   }

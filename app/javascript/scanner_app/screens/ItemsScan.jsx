@@ -15,7 +15,7 @@ import useInput from "../hooks/useInput";
 
 import "./styles.scss"
 
-export default function ItemsScan() {
+export default function ItemsScan({ onScan }) {
   const isbn = useInput()
   const [bookInfo, setBookInfo] = useState()
   const formOpened = bookInfo != null
@@ -50,7 +50,8 @@ export default function ItemsScan() {
             <BookForm
               isbn={isbn}
               book={bookInfo}
-              onClose={handleCloseForm}
+              onClose={ handleCloseForm }
+              onScan={onScan}
             />
           )}
         </Stack>

@@ -1,0 +1,77 @@
+.scanned-books {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  * {
+    color: #202223;
+  }
+
+  [data-focused]:not(:focus) .Polaris-Listbox-TextOption::after {
+    box-shadow: none;
+  }
+
+  .Polaris-Listbox-TextOption {
+    margin: 0;
+    padding: 0;
+  }
+
+  .Polaris-Collapsible .Polaris-Listbox-Option {
+    padding: 5px 10px;
+  }
+
+  .Polaris-Listbox-Option--divider,
+  .Polaris-Collapsible li:last-child {
+    border-bottom: 0.1rem solid #9C9C9C;
+  }
+
+  .Polaris-Listbox-Action {
+    padding: 20px 10px 10px;
+
+    .Polaris-Stack:last-child {
+      align-items: flex-end;
+
+      * {
+        font-weight: 500;
+      }
+
+      .Polaris-Icon {
+        margin-bottom: 3px;
+      }
+
+      .Polaris-Heading {
+        color: #9C9C9C;
+        min-width: 35px;
+        text-align: right;
+      }
+    }
+  }
+
+  .Polaris-Heading {
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .Polaris-Caption {
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  .Polaris-Listbox-Action > .Polaris-Stack:first-child {
+    flex-grow: 1;
+  }
+
+  ul {
+    flex-grow: 1;
+  }
+
+  li {
+    display: flex;
+    flex-direction: column;
+
+    .Polaris-Stack__Item {
+      margin: 0;
+      margin-top: 4px;
+    }
+  }
+}
