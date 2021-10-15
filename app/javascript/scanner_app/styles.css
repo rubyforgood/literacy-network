@@ -6,6 +6,12 @@
   justify-content: center;
 }
 
+.Polaris-DisplayText {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 400;
+}
+
 body {
   overflow: hidden;
 }

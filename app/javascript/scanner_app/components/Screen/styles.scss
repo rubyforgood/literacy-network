@@ -1,6 +1,5 @@
 .screen {
-  overflow-y: auto;
-  height: calc(100vh - 20px);
+  height: calc(100vh - 15px);
 
   .Polaris-Page,
   .Polaris-Page__Content {
@@ -9,11 +8,17 @@
 
   .Polaris-Page__Content {
     display: flex;
+    overflow-y: auto;
     flex-direction: column;
 
     & > :first-child {
       flex-grow: 1;
-      margin: 0 33px;
+      margin: 0 25px;
+    }
+
+    & > :last-child {
+      position: sticky;
+      bottom: 0;
     }
   }
 
@@ -21,8 +26,13 @@
     height: 100%;
   }
 
+  .Polaris-Tabs__Title::before {
+    display: none;
+  }
+
   .Polaris-Tabs__Wrapper {
     border-top: 1px solid #9C9C9C;
+    background-color: var(--p-background);
   }
 
   .Polaris-Tabs {

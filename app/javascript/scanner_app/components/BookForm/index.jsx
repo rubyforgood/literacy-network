@@ -14,9 +14,9 @@ import { createBook, updateBook } from "../../api";
 
 export default function BookForm({
   book = {},
+  onScan = () => {},
   onClose = () => {},
 }) {
-
   const [error, setError] = useState()
   // Books having an id mean they already exist in Shopify"s DB.
   const existingBook = book.id != null
@@ -29,37 +29,37 @@ export default function BookForm({
   const bookAuthors = useInput(book.authors)
   const bookSubject = useInput(book.subject)
   const bookPublishDate = useInput(book.publishDate)
-  const quantity = useInput(book.quantity || 1)
+  const quantity = useInput(book.quantity || "1")
 
-  const handleError = () => {
-    setError("There was an error saving your book.")
-  }
+  const handleSubmit = async () => {
+    try {
+      const bookInfo = {
+        id: book.id,
+        isbn: book.isbn,
+        title: bookTitle.value,
+        price: bookPrice.value,
+        author: bookAuthors.value,
+        subject: bookSubject.value,
+        publishDate: bookPublishDate.value,
+        quantity: quantity.value,
+      }
 
-  const handleSubmit = () => {
-    const bookInfo = {
-      id: book.id,
-      isbn: book.isbn,
-      title: bookTitle.value,
-      price: bookPrice.value,
-      author: bookAuthors.value,
-      subject: bookSubject.value,
-      publishDate: bookPublishDate.value,
-      quantity: quantity.value,
+      const resp = existingBook
+        ? await updateBook(bookInfo)
+        : await createBook(bookInfo)
+
+      if (!resp.ok) {
+        // TODO: throw actual API error message
+        throw new Error("API error")
+      }
+
+      onScan(bookInfo)
+    } catch (error) {
+      // TODO: Display API errors to the user when it makes sense
+      // rather than a generic message.
+      console.error(error)
+      setError("There was an error saving your book.")
     }
-
-    const saveBookRequest = existingBook ? updateBook(bookInfo) : createBook(bookInfo)
-
-    saveBookRequest
-      .then((resp) => {
-        if (resp.ok) {
-          onClose()
-        } else {
-          handleError()
-        }
-      })
-      .catch(() => {
-        handleError()
-      })
   }
 
   return (
@@ -98,7 +98,7 @@ export default function BookForm({
             <TextField label="Publish Date" {...bookPublishDate} disabled={existingBook} />
             <TextField label="Subject" {...bookSubject} disabled={existingBook} />
             <TextField label="Price" type="number" {...bookPrice} disabled={existingBook} />
-            <TextField label="Quantity" type="number" {...quantity} />
+            <TextField label="Quantity" type="number" {...quantity} autoFocus />
           </FormLayout>
         </Form>
       </Modal.Section>
