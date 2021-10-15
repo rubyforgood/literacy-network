@@ -29,7 +29,7 @@ export default function BookForm({
   const bookAuthors = useInput(book.authors)
   const bookSubject = useInput(book.subject)
   const bookPublishDate = useInput(book.publishDate)
-  const quantity = useInput(book.quantity || 1)
+  const quantity = useInput(book.quantity || "1")
 
   const handleSubmit = async () => {
     try {
