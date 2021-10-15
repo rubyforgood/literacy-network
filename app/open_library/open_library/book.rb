@@ -31,6 +31,8 @@ module OpenLibrary
       String(book_json[:publish_date])
     end
 
+    delegate :blank?, to: :book_json
+
     def attributes
       {
         isbn: nil,
