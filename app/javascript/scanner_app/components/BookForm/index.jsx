@@ -1,5 +1,6 @@
-import React from "react"
+import React, { useState } from "react"
 import {
+  DisplayText,
   Form,
   FormLayout,
   Modal,
@@ -8,13 +9,15 @@ import {
 } from "@shopify/polaris"
 
 import useInput from "../../hooks/useInput"
-import axios from "axios"
+
+import { createBook, updateBook } from "../../api";
 
 export default function BookForm({
   book = {},
   onClose = () => {},
 }) {
 
+  const [error, setError] = useState()
   // Books having an id mean they already exist in Shopify"s DB.
   const existingBook = book.id != null
   const title = existingBook ? "Update Item Quantity" : "New Item Details"
@@ -28,7 +31,11 @@ export default function BookForm({
   const bookPublishDate = useInput(book.publishDate)
   const quantity = useInput(book.quantity || 1)
 
-  const handleSubmit = async () => {
+  const handleError = () => {
+    setError("There was an error saving your book.")
+  }
+
+  const handleSubmit = () => {
     const bookInfo = {
       id: book.id,
       isbn: book.isbn,
@@ -39,20 +46,38 @@ export default function BookForm({
       publishDate: bookPublishDate.value,
       quantity: quantity.value,
     }
-    // TODO: if `existingBook` then call PUT endpoint else call POST
 
-    console.log("token", window.sessionToken)
-    const response = await axios.post("/books", bookInfo, { headers: { "Authorization": "Bearer " + window.sessionToken } })
+    const saveBookRequest = existingBook ? updateBook(bookInfo) : createBook(bookInfo)
 
-    // TODO: Close the modal upon a successful API response
-    onClose()
+    saveBookRequest
+      .then((resp) => {
+        if (resp.ok) {
+          onClose()
+        } else {
+          handleError()
+        }
+      })
+      .catch(() => {
+        handleError()
+      })
   }
 
   return (
     <Modal
+      className="bookForm"
       open
       onClose={onClose}
-      title={title}
+      title={
+        <>
+          <DisplayText size="large">{title}</DisplayText>
+          <TextStyle variation="subdued">{subtitle}</TextStyle>
+          { error && (
+            <div>
+              <TextStyle variation="negative">{error}</TextStyle>
+            </div>
+          )}
+        </>
+      }
       primaryAction={{
         content: "Save",
         onAction: handleSubmit,
@@ -65,7 +90,6 @@ export default function BookForm({
       ]}
     >
       <Modal.Section>
-        <TextStyle variation="subdued">{subtitle}</TextStyle>
         <Form onSubmit={handleSubmit}>
           <FormLayout>
             <TextField label="ISBN #" {...bookIsbn} disabled={existingBook} />
