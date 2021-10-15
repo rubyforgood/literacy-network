@@ -25,7 +25,7 @@ export default function BookForm({
 
   const bookIsbn = useInput(book.isbn)
   const bookTitle = useInput(book.title)
-  const bookPrice = useInput(book.price)
+  const bookPrice = useInput(book.price || 0)
   const bookAuthors = useInput(book.authors)
   const bookSubject = useInput(book.subject)
   const bookPublishDate = useInput(book.publishDate)
