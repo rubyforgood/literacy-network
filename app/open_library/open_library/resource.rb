@@ -1,6 +1,6 @@
 module OpenLibrary
   class Resource
-    include ActiveModel::Serializers
+    include ActiveModel::Serializers::JSON
 
     def initialize(source_json)
       self.source_json = source_json
@@ -10,7 +10,7 @@ module OpenLibrary
       {}
     end
 
-    delegate :blank?, to: :book_json
+    delegate :blank?, to: :source_json
 
     private
 
