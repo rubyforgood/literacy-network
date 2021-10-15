@@ -10,4 +10,8 @@ module OpenLibrary
   def self.authors(authors)
     Array(authors).map { |author| Author.new(connection_pool.with { |client| client.get("#{author}.json") }) }
   end
+
+  def self.works(works)
+    Array(works).map { |work| Work.new(connection_pool.with { |client| client.get("#{work}.json") }) }
+  end
 end
