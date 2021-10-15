@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import {
   DisplayText,
   Form,
@@ -17,6 +17,7 @@ export default function BookForm({
   onClose = () => {},
 }) {
 
+  const [error, setError] = useState()
   // Books having an id mean they already exist in Shopify"s DB.
   const existingBook = book.id != null
   const title = existingBook ? "Update Item Quantity" : "New Item Details"
@@ -30,6 +31,10 @@ export default function BookForm({
   const bookPublishDate = useInput(book.publishDate)
   const quantity = useInput(book.quantity || 1)
 
+  const handleError = () => {
+    setError("There was an error saving your book.")
+  }
+
   const handleSubmit = () => {
     const bookInfo = {
       id: book.id,
@@ -42,9 +47,19 @@ export default function BookForm({
       quantity: quantity.value,
     }
 
-    // TODO: Error handling
-    existingBook ? updateBook(bookInfo) : createBook(bookInfo)
-    onClose()
+    const saveBookRequest = existingBook ? updateBook(bookInfo) : createBook(bookInfo)
+
+    saveBookRequest
+      .then((resp) => {
+        if (resp.ok) {
+          onClose()
+        } else {
+          handleError()
+        }
+      })
+      .catch(() => {
+        handleError()
+      })
   }
 
   return (
@@ -56,6 +71,11 @@ export default function BookForm({
         <>
           <DisplayText size="large">{title}</DisplayText>
           <TextStyle variation="subdued">{subtitle}</TextStyle>
+          { error && (
+            <div>
+              <TextStyle variation="negative">{error}</TextStyle>
+            </div>
+          )}
         </>
       }
       primaryAction={{

@@ -19,16 +19,10 @@ export const fetchBookInfo = async (isbn) => {
   }
 }
 
-export const createBook = async (book) => {
-  const resp = await fetch(`books`, { method: "POST", body: JSON.stringify(book), headers })
-  const data = await resp.json()
-
-  return data
+export const createBook = (book) => {
+  return fetch(`books`, { method: "POST", body: JSON.stringify(book), headers })
 }
 
-export const updateBook = async (book) => {
-  const resp = await fetch(endpoint(book.isbn), { method: "PATCH", body: JSON.stringify(book), headers })
-  const data = await resp.json()
-
-  return data
+export const updateBook = (book) => {
+  return fetch(endpoint(book.isbn), { method: "PATCH", body: JSON.stringify(book), headers })
 }
