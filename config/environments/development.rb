@@ -1,5 +1,5 @@
 Rails.application.configure do
-  config.hosts << "5f7a-170-231-46-69.ngrok.io"
+  config.hosts << "f996-177-182-164-174.ngrok.io"
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on

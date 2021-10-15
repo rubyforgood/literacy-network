@@ -8,6 +8,7 @@ import {
 } from "@shopify/polaris"
 
 import useInput from "../../hooks/useInput"
+import axios from "axios"
 
 export default function BookForm({
   book = {},
@@ -21,13 +22,13 @@ export default function BookForm({
 
   const bookIsbn = useInput(book.isbn)
   const bookTitle = useInput(book.title)
-  const bookPrice = useInput(book.price)
+  const bookPrice = useInput(book.price || 0)
   const bookAuthors = useInput(book.authors)
   const bookSubject = useInput(book.subject)
   const bookPublishDate = useInput(book.publishDate)
   const quantity = useInput(book.quantity || 1)
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const bookInfo = {
       id: book.id,
       isbn: book.isbn,
@@ -39,7 +40,10 @@ export default function BookForm({
       quantity: quantity.value,
     }
     // TODO: if `existingBook` then call PUT endpoint else call POST
-    console.log(">>> book info", bookInfo)
+
+    console.log("token", window.sessionToken)
+    const response = await axios.post("/books", bookInfo, { headers: { "Authorization": "Bearer " + window.sessionToken } })
+
     // TODO: Close the modal upon a successful API response
     onClose()
   }
