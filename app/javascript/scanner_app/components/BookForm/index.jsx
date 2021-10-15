@@ -31,38 +31,35 @@ export default function BookForm({
   const bookPublishDate = useInput(book.publishDate)
   const quantity = useInput(book.quantity || 1)
 
-  const handleError = () => {
-    setError("There was an error saving your book.")
-  }
+  const handleSubmit = async () => {
+    try {
+      const bookInfo = {
+        id: book.id,
+        isbn: book.isbn,
+        title: bookTitle.value,
+        price: bookPrice.value,
+        author: bookAuthors.value,
+        subject: bookSubject.value,
+        publishDate: bookPublishDate.value,
+        quantity: quantity.value,
+      }
 
-  const handleSubmit = () => {
-    const bookInfo = {
-      id: book.id,
-      isbn: book.isbn,
-      title: bookTitle.value,
-      price: bookPrice.value,
-      author: bookAuthors.value,
-      subject: bookSubject.value,
-      publishDate: bookPublishDate.value,
-      quantity: quantity.value,
-    }
+      const resp = existingBook
+        ? await updateBook(bookInfo)
+        : await createBook(bookInfo)
 
-    const saveBookRequest = existingBook
-      ? updateBook(bookInfo)
-      : createBook(bookInfo)
-
-    const handlerApiResponse = resp => {
       if (!resp.ok) {
-        console.error(resp)
+        // TODO: throw actual API error message
         throw new Error("API error")
       }
-    }
 
-    saveBookRequest
-      .then(handlerApiResponse)
-      .catch(handleError)
-      .then(() => onScan(bookInfo))
-      .then(onClose)
+      onScan(bookInfo)
+    } catch (error) {
+      // TODO: Display API errors to the user when it makes sense
+      // rather than a generic message.
+      console.error(error)
+      setError("There was an error saving your book.")
+    }
   }
 
   return (

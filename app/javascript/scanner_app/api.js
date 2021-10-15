@@ -19,12 +19,16 @@ export const fetchBookInfo = async (isbn) => {
   }
 }
 
-export const createBook = (book) => {
-  const headers = new Headers({ "Authorization": "Bearer " + window.sessionToken, "Content-Type": "application/json" });
-  return fetch(`books`, { method: "POST", body: JSON.stringify(book), headers })
+const createHeaders = () => {
+  return new Headers({ "Authorization": "Bearer " + window.sessionToken, "Content-Type": "application/json" });
 }
 
-export const updateBook = (book) => {
-  const headers = new Headers({ "Authorization": "Bearer " + window.sessionToken, "Content-Type": "application/json"  });
-  return fetch(endpoint(book.isbn), { method: "PATCH", body: JSON.stringify(book), headers })
+export const createBook = async (book) => {
+  const headers = createHeaders()
+  return await fetch(`books`, { method: "POST", body: JSON.stringify(book), headers })
+}
+
+export const updateBook = async (book) => {
+  const headers = createHeaders()
+  return await fetch(endpoint(book.isbn), { method: "PATCH", body: JSON.stringify(book), headers })
 }
