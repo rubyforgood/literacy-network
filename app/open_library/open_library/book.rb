@@ -31,6 +31,10 @@ module OpenLibrary
       String(book_json[:publish_date])
     end
 
+    def subjects
+      Array(book_json[:subjects]).map { |subject| { name: String(subject) } }
+    end
+
     delegate :blank?, to: :book_json
 
     def attributes
@@ -41,6 +45,7 @@ module OpenLibrary
         number_of_pages: nil,
         publishers: [],
         publish_date: nil,
+        subjects: [],
       }
     end
 
